@@ -4,13 +4,14 @@ import json
 import csv
 
 
-warrior = {'location': None, "HP": 200, "STR": 100,
+
+warrior = {'location': None, "HP": 200, "STRG": 100,
                "DEX": 50, "INTL": 50, "weapon": "sword",
                "item": None, "potion": None}
-mage = {'location': None, "HP": 150, "STR": 50,
+mage = {'location': None, "HP": 150, "STRG": 50,
             "DEX": 100, "INTL": 150, "weapon": "stick",
             "item": None, "potion": None}
-rogue = {'location': None, "HP": 125, "STR": 75,
+rogue = {'location': None, "HP": 125, "STRG": 75,
              "DEX": 150, "INTL": 100, "weapon": "dagger",
              "item": None, "potion": None}
 enemies = {"skeleton": {"location": None, "Shp": 150, "Sstr": 20},
@@ -30,8 +31,8 @@ def Open_Chest():
             main_player["HP"] = main_player["HP"] + 25
             print(f"Вам выпал бафф на здоровье \nТекущее здоровье: {main_player['HP']}")
         elif drop == 2:
-            main_player["STR"] = main_player["STR"] + 15
-            print(f"Вам выпал бафф на силу \nТекущая сила: {main_player['STR']}")
+            main_player["STRG"] = main_player["STRG"] + 15
+            print(f"Вам выпал бафф на силу \nТекущая сила: {main_player['STRG']}")
         elif drop == 3:
             main_player["DEX"] = main_player["DEX"] + 20
             print(f"Вам выпал бафф на ловкость \nТекущая ловкость: {main_player['DEX']}")
@@ -72,21 +73,21 @@ def Trader():
         elif choose_item == 3:
             if (inventory["gold"] >= 8):
                 inventory["gold"] = inventory["gold"] - 8
-                main_player["STR"] = main_player["STR"] + 10
+                main_player["STRG"] = main_player["STRG"] + 10
                 print("Спасибо за покупку!")
             else:
                 print("Вам не хватает монеток.")
         elif choose_item == 4:
             if (inventory["gold"] >= 15):
                 inventory["gold"] = inventory["gold"] - 15
-                main_player["STR"] = main_player["STR"] + 20
+                main_player["STRG"] = main_player["STRG"] + 20
                 print("Спасибо за покупку!")
             else:
                 print("Вам не хватает монеток.")
         elif choose_item == 5:
             if inventory["gold"] >= 10:
                 inventory["gold"] = inventory["gold"] - 10
-                main_player["STR"] = main_player["STR"] + 15
+                main_player["STRG"] = main_player["STRG"] + 15
                 print("Спасибо за покупку!")
             else:
                 print("Вам не хватает монеток.")
@@ -116,9 +117,9 @@ def battle_skeleton():
                 print("Используйте цифры для выбора!")
         if action == 1:
             if (main_player["DEX"] > 75 or main_player["INTL"] > 125):
-                main_player["STR"] = main_player["STR"] + 25
-                enemies["skeleton"]["Shp"] = enemies["skeleton"]["Shp"] - main_player["STR"]
-                main_player["STR"] = main_player["STR"] - 25
+                main_player["STRG"] = main_player["STRG"] + 25
+                enemies["skeleton"]["Shp"] = enemies["skeleton"]["Shp"] - main_player["STRG"]
+                main_player["STRG"] = main_player["STRG"] - 25
                 if enemies["skeleton"]["Shp"] > 0:
                     print("Он все еще жив и может атакавать")
                     print(f"Его здоровье: {enemies['skeleton']['Shp']}")
@@ -128,7 +129,7 @@ def battle_skeleton():
                     print(f"У вас сейчас {inventory['gold']} монет")
                     break
             else:
-                enemies["skeleton"]["Shp"] = enemies["skeleton"]["Shp"] - main_player["STR"]
+                enemies["skeleton"]["Shp"] = enemies["skeleton"]["Shp"] - main_player["STRG"]
                 if enemies["skeleton"]["Shp"] > 0:
                     print("Он все еще жив и может атакавать")
                     print(f"Его здоровье: {enemies['skeleton']['Shp']}")
@@ -166,9 +167,9 @@ def battle_pigman():
                 print("Используйте цифры для выбора!")
         if action == 1:
             if (main_player["DEX"] > 75 or main_player["INTL"] > 125):
-                main_player["STR"] = main_player["STR"] + 25
-                enemies["pigman"]["Php"] = enemies["pigman"]["Php"] - main_player["STR"]
-                main_player["STR"] = main_player["STR"] - 25
+                main_player["STRG"] = main_player["STRG"] + 25
+                enemies["pigman"]["Php"] = enemies["pigman"]["Php"] - main_player["STRG"]
+                main_player["STRG"] = main_player["STRG"] - 25
                 if enemies["pigman"]["Php"] > 0:
                     print("Он все еще жив и может атакавать")
                     print(f"Его здоровье: {enemies['pigman']['Php']}")
@@ -179,7 +180,7 @@ def battle_pigman():
                     print(f"У вас сейчас {inventory['gold']} монет")
                     break
             else:
-                enemies["pigman"]["Php"] = enemies["pigman"]["Php"] - main_player["STR"]
+                enemies["pigman"]["Php"] = enemies["pigman"]["Php"] - main_player["STRG"]
                 if enemies["pigman"]["Php"] > 0:
                     print("Он все еще жив и может атакавать")
                     print(f"Его здоровье: {enemies['pigman']['Php']}")
@@ -215,9 +216,9 @@ def battle_crimer():
                 print("Используйте цифры для выбора!")
         if action == 1:
             if (main_player["DEX"] > 75 or main_player["INTL"] > 125):
-                main_player["STR"] = main_player["STR"] + 25
-                enemies["crimer"]["Chp"] = enemies["crimer"]["Chp"] - main_player["STR"]
-                main_player["STR"] = main_player["STR"] - 25
+                main_player["STRG"] = main_player["STRG"] + 25
+                enemies["crimer"]["Chp"] = enemies["crimer"]["Chp"] - main_player["STRG"]
+                main_player["STRG"] = main_player["STRG"] - 25
                 if enemies["crimer"]["Chp"] > 0:
                     print("Он все еще жив и может атакавать")
                     print(f"Его здоровье: {enemies['crimer']['Сhp']}")
@@ -228,7 +229,7 @@ def battle_crimer():
                     print(f"У вас сейчас {inventory['gold']} монет")
                     break
             else:
-                enemies["crimer"]["Chp"] = enemies["crimer"]["Chp"] - main_player["STR"]
+                enemies["crimer"]["Chp"] = enemies["crimer"]["Chp"] - main_player["STRG"]
                 if enemies["skeleton"]["Shp"] > 0:
                     print("Он все еще жив и может атакавать")
                     print(f"Его здоровье: {enemies['crimer']['Chp']}")
@@ -266,13 +267,12 @@ def Save_inventory():
 
 def Save_csv():
     with open('save.csv', 'w', newline='') as file:
-        keis = ['location', 'HP', 'STR', 'DEX', 'INTL', 'weapon', 'item', 'potion']
-        player = csv.DictWriter(file, fieldnames=keis, delimiter="\n")
+        keis = ['location', 'HP', 'STRG', 'DEX', 'INTL', 'weapon', 'item', 'potion']
+        player = csv.DictWriter(file, fieldnames=keis, delimiter="\t")
         player.writeheader()
         player.writerow(main_player)
 
-        for row in main_player:
-            player.writerow(row)
+
 
 def Del_player():
     with open('save.json', 'r') as file:
@@ -281,7 +281,7 @@ def Del_player():
     main_player['location'] = "start_room"
     main_player['HP'] = 0
     main_player['DEX'] = 0
-    main_player['STR'] = 0
+    main_player['STRG'] = 0
     main_player['INTL'] = 0
 
     with open('save.json', 'w') as file:
@@ -302,9 +302,9 @@ def battle_boss():
                 print("Используйте цифры для выбора!")
         if action == 1:
             if (main_player["DEX"] > 75 or main_player["INTL"] > 125):
-                main_player["STR"] = main_player["STR"] + 25
-                enemies["boss"]["Bhp"] = enemies["boss"]["Bhp"] - main_player["STR"]
-                main_player["STR"] = main_player["STR"] - 25
+                main_player["STRG"] = main_player["STRG"] + 25
+                enemies["boss"]["Bhp"] = enemies["boss"]["Bhp"] - main_player["STRG"]
+                main_player["STRG"] = main_player["STRG"] - 25
                 if enemies["boss"]["Bhp"] > 0:
                     print("Он все еще жив и может атакавать")
                     print(f"Его здоровье: {enemies['boss']['Bhp']}")
@@ -315,7 +315,7 @@ def battle_boss():
                     print(f"У вас сейчас {inventory['gold']} монет")
                     break
             else:
-                enemies["boss"]["Bhp"] = enemies["boss"]["Bhp"] - main_player["STR"]
+                enemies["boss"]["Bhp"] = enemies["boss"]["Bhp"] - main_player["STRG"]
                 if enemies["boss"]["Bhp"] > 0:
                     print("Он все еще жив и может атакавать")
                     print(f"Его здоровье: {enemies['boss']['Bhp']}")
@@ -330,7 +330,7 @@ def battle_boss():
         elif action == 3:
             print(f"Вы использовали {main_player['potion']}")
             if (main_player["potion"] == "зелье силы"):
-                main_player["STR"] = main_player["STR"] + 40
+                main_player["STRG"] = main_player["STRG"] + 40
                 print("Вы получили прибавку к силе в размере 40 единиц")
                 main_player["potion"] = None
             elif (main_player["potion"] == "зелье здоровья"):
@@ -432,6 +432,7 @@ def Second_room():
         if move3 == 1:
             print("Перед вами новый противник и это воровщик. Этот сутулый поросший мхом гном любит красть золото,"
                   " ничего не спасет вас от его загребущих рук. \nТак что скорее победите его, чтобы его прогнать")
+            battle_crimer()
             print("Тут тупик и вы проходите в другую дверь. "
                   "\nСнова скелеты. Но их трое. Надо победить их всех!!!")
             battle_skeleton()
@@ -532,6 +533,7 @@ def Third_room():
 
 choise = str(input("Вы впервые играете? да или нет\n"))
 if (choise == "да"):
+
     print("Возможные классы: \n1)Воин \n2)Маг \n3)Плут")
     while (True):
         while(True):
@@ -573,7 +575,7 @@ if (choise == "да"):
         else:
             print("Такого класса нет!!")
     print(f"Ваш класс {class_} \nЗдоровье: {main_player['HP']} "
-                f"\nСила: {main_player['STR']} \nЛовкость: {main_player['DEX']} "
+                f"\nСила: {main_player['STRG']} \nЛовкость: {main_player['DEX']} "
                 f"\nИнтеллект: {main_player['INTL']}")
     Fisrt_room()
     Second_room()
