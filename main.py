@@ -1,6 +1,8 @@
 import random
 import sys
 import json
+import csv
+
 
 warrior = {'location': None, "HP": 200, "STR": 100,
                "DEX": 50, "INTL": 50, "weapon": "sword",
@@ -20,51 +22,6 @@ class_ = None
 inventory = {"gold": 0}
 main_player = {}
 first_player = {}
-print("Возможные классы: \n1)Воин \n2)Маг \n3)Плут")
-while (True):
-    while(True):
-        try:
-            choice = int(input("Выберите персонажа: "))
-            break
-        except ValueError:
-            print("Используйте ЦИФРЫ для выбора класса!!!")
-    if (choice == 1):
-        print("Класс Воин. Характеристики: \nЗдоровье - 200 \nСила - 100 "
-                  "\nЛовкость - 50 \nИнтеллект - 50 \nОружие - меч")
-        bol = str(input("Вы уверены что хотите взять Воина? (д)да или (н)нет \n"))
-        if (bol.lower() == "д" or bol.lower() == "да"):
-            main_player = warrior
-            class_ = str("Воин")
-            break
-        elif (bol.lower() == "н"or bol.lower() == "нет"):
-            print("Выберите другого персонажа.")
-    if (choice == 2):
-        print("Класс Маг. Характеристики: \nЗдоровье - 150 "
-                  "\nСила - 50 \nЛовкость - 100 \nИнтеллект - 150 \nОружие - посох ")
-        bol = str(input("Вы уверены что хотите взять Мага? (д)да или (н)нет \n"))
-        if (bol.lower() == "д" or bol.lower() == "да"):
-            main_player = mage
-            class_ = str("Маг")
-            break
-        elif (bol.lower() == "н" or bol.lower() == "нет"):
-            print("Выберите другого персонажа.")
-    if (choice == 3):
-        print("Класс Плута. Характеристики: \nЗдоровье - 125 \nСила - 75 "
-                  "\nЛовкость - 150 \nИнтеллект - 100 \nОружие - кинжал ")
-        bol = str(input("Вы уверены что хотите взять Плута? (д)да или (н)нет \n"))
-        if (bol.lower() == "д" or bol.lower() == "да"):
-            main_player = rogue
-            class_ = str("Плут")
-            break
-        elif (bol.lower() == "н" or bol.lower() == "нет"):
-            print("Выберите другого персонажа.")
-    else:
-        print("Такого класса нет!!")
-print(f"Ваш класс {class_} \nЗдоровье: {main_player['HP']} "
-            f"\nСила: {main_player['STR']} \nЛовкость: {main_player['DEX']} "
-            f"\nИнтеллект: {main_player['INTL']}")
-
-
 def Open_Chest():
     open_choice = str(input("Вы хотите открыть сундук? (д)да или (н)нет \n"))
     if open_choice.lower() == "д" or open_choice.lower() == "да":
@@ -80,7 +37,7 @@ def Open_Chest():
             print(f"Вам выпал бафф на ловкость \nТекущая ловкость: {main_player['DEX']}")
         elif drop == 4:
             main_player["HP"] = main_player["HP"] - 50
-            print(f"Вам выпал дебафф на здоровье \nТекущее доровье: {main_player['HP']}")
+            print(f"Вам выпал дебафф на здоровье \nТекущее здоровье: {main_player['HP']}")
         elif drop == 5:
             main_player["INTL"] = main_player["INTL"] + 20
             print(f"Вам выпал дебафф на ловкость \nТекущая ловкость: {main_player['DEX']}")
@@ -135,6 +92,7 @@ def Trader():
                 print("Вам не хватает монеток.")
         elif choose_item == 6:
             break
+
 def Enemy_drop():
     enemy_drop = int(random.randint(1, 3))
     if enemy_drop == 1:
@@ -305,6 +263,30 @@ def Save_player():
 def Save_inventory():
     with open('savei.json', 'w') as file1:
         json.dump(inventory, file1, indent=4)
+
+def Save_csv():
+    with open('save.csv', 'w', newline='') as file:
+        keis = ['location', 'HP', 'STR', 'DEX', 'INTL', 'weapon', 'item', 'potion']
+        player = csv.DictWriter(file, fieldnames=keis, delimiter="\n")
+        player.writeheader()
+        player.writerow(main_player)
+
+        for row in main_player:
+            player.writerow(row)
+
+def Del_player():
+    with open('save.json', 'r') as file:
+        main_player = json.load(file)
+
+    main_player['location'] = "start_room"
+    main_player['HP'] = 0
+    main_player['DEX'] = 0
+    main_player['STR'] = 0
+    main_player['INTL'] = 0
+
+    with open('save.json', 'w') as file:
+        json.dump(main_player, file, indent=4)
+
 
 
 def battle_boss():
@@ -489,7 +471,7 @@ def Third_room():
 
         print("Перед вами две двери. Одна перед вами другая по правой стороне.")
         move2 = int(input("Куда пойдете? \n 1) В дверь перед вами \n 2) В дверь справа"
-                          " \n 3) Вернутся к торговцу \n 4) Сохраниться"))
+                          " \n 3) Вернутся к торговцу \n 4) Сохраниться\n"))
         if move2 == 1:
             print("Вы входите в дверь и видите свинью-человека и скелета рядом с ним, "
                   "и в кармане свиньи-человека, что-то светится это похоже на ключ. "
@@ -548,28 +530,76 @@ def Third_room():
             "\nВы выходите из подземелья, но на этом ваше путешествие не заканчивается. "
             "\nВпереди еще много разных испытаний. История этого испытания заканчивается сейчас. \nHappy End")
 
-
-with open('save.json', 'w') as file:
-    json.dump(main_player, file, indent=4)
-
-with open('save.json', 'r') as file:
-    main_player = json.load(file)
-
-locacion = main_player['location']
-
-print(locacion)
-if (locacion == "first_room"):
+choise = str(input("Вы впервые играете? да или нет\n"))
+if (choise == "да"):
+    print("Возможные классы: \n1)Воин \n2)Маг \n3)Плут")
+    while (True):
+        while(True):
+            try:
+                choice = int(input("Выберите персонажа: "))
+                break
+            except ValueError:
+                print("Используйте ЦИФРЫ для выбора класса!!!")
+        if (choice == 1):
+            print("Класс Воин. Характеристики: \nЗдоровье - 200 \nСила - 100 "
+                      "\nЛовкость - 50 \nИнтеллект - 50 \nОружие - меч")
+            bol = str(input("Вы уверены что хотите взять Воина? (д)да или (н)нет \n"))
+            if (bol.lower() == "д" or bol.lower() == "да"):
+                main_player = warrior
+                class_ = str("Воин")
+                break
+            elif (bol.lower() == "н"or bol.lower() == "нет"):
+                print("Выберите другого персонажа.")
+        if (choice == 2):
+            print("Класс Маг. Характеристики: \nЗдоровье - 150 "
+                      "\nСила - 50 \nЛовкость - 100 \nИнтеллект - 150 \nОружие - посох ")
+            bol = str(input("Вы уверены что хотите взять Мага? (д)да или (н)нет \n"))
+            if (bol.lower() == "д" or bol.lower() == "да"):
+                main_player = mage
+                class_ = str("Маг")
+                break
+            elif (bol.lower() == "н" or bol.lower() == "нет"):
+                print("Выберите другого персонажа.")
+        if (choice == 3):
+            print("Класс Плута. Характеристики: \nЗдоровье - 125 \nСила - 75 "
+                      "\nЛовкость - 150 \nИнтеллект - 100 \nОружие - кинжал ")
+            bol = str(input("Вы уверены что хотите взять Плута? (д)да или (н)нет \n"))
+            if (bol.lower() == "д" or bol.lower() == "да"):
+                main_player = rogue
+                class_ = str("Плут")
+                break
+            elif (bol.lower() == "н" or bol.lower() == "нет"):
+                print("Выберите другого персонажа.")
+        else:
+            print("Такого класса нет!!")
+    print(f"Ваш класс {class_} \nЗдоровье: {main_player['HP']} "
+                f"\nСила: {main_player['STR']} \nЛовкость: {main_player['DEX']} "
+                f"\nИнтеллект: {main_player['INTL']}")
     Fisrt_room()
     Second_room()
     Third_room()
-elif (locacion == "second_room"):
-    Second_room()
-    Third_room()
-elif (locacion == "third_room"):
-    Third_room()
+    Save_csv()
+    Del_player()
+elif (choise == "нет"):
 
+    with open('save.json', 'r') as file:
+        main_player = json.load(file)
 
-else:
-    Fisrt_room()
-    Second_room()
-    Third_room()
+    locacion = main_player['location']
+
+    print(locacion)
+    if (locacion == "first_room"):
+        Fisrt_room()
+        Second_room()
+        Third_room()
+        Save_csv()
+        Del_player()
+    elif (locacion == "second_room"):
+        Second_room()
+        Third_room()
+        Save_csv()
+        Del_player()
+    elif (locacion == "third_room"):
+        Third_room()
+        Save_csv()
+        Del_player()
